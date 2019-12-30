@@ -3,7 +3,13 @@ name = "ejdict_rs"
 version = "0.1.0"
 authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
 edition = "2018"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[build-dependencies]
+reqwest = "0.9"
+serde_json = "1"
+ejdict_rs_core = { path = "ejdict_rs_core" }
