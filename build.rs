@@ -4,7 +4,7 @@ use std::fs;
 use std::str;
 use std::path::PathBuf;
 use std::io::{BufWriter, Write};
-use ejdict_rs_core::{Dict, Word};
+use ejdict_rs_core::{Dictionary, Word};
 
 const EJDICT_URL_DEFAULT: &'static str = "https://raw.githubusercontent.com/kujirahand/EJDict/master/release/ejdic-hand-utf8.txt";
 
@@ -16,8 +16,7 @@ fn main() -> io::Result<()> {
     let output_dir = env::var("OUT_DIR").unwrap();
     let output_path = PathBuf::new()
         .join(output_dir)
-        .join("res")
-        .with_file_name("ejdict.json");
+        .join("ejdict.json");
     if output_path.exists() && !ejdict_force_update {
         return Ok(());
     }
@@ -28,9 +27,8 @@ fn main() -> io::Result<()> {
             .unwrap();
     let words = res.lines()
         .map(Word::parse_line)
-        .map(Word::from)
         .collect::<Vec<_>>();
-    let dict = Dict::new(words);
+    let dict = Dictionary::new(words);
     let json =
         serde_json::to_string_pretty(&dict).unwrap();
     let mut output = BufWriter::new(fs::File::create(output_path)?);
