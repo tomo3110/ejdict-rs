@@ -1,4 +1,6 @@
+use failure::{Backtrace, Context, Fail};
 use serde::{Deserialize, Serialize};
+use std::str::FromStr;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Dictionary {
@@ -102,6 +104,35 @@ pub enum SearchMode {
     Lower,
 }
 
+impl ToString for SearchMode {
+    fn to_string(&self) -> String {
+        use SearchMode::*;
+        match self {
+            Exact => "exact".to_string(),
+            Fuzzy => "fuzzy".to_string(),
+            Lower => "lower".to_string(),
+        }
+    }
+}
+
+impl FromStr for SearchMode {
+    type Err = ConvertError;
+
+    fn from_str(s: &str) -> Result<SearchMode, ConvertError> {
+        use SearchMode::*;
+        if Exact.to_string().eq( s) {
+            return Ok(Exact);
+        }
+        if Fuzzy.to_string().eq(s) {
+            return Ok(Fuzzy);
+        }
+        if Lower.to_string().eq(s) {
+            return Ok(Lower);
+        }
+        Err(ConvertError::InvalidSearchModeName { argument: s.to_string() })
+    }
+}
+
 pub struct Candidate<I>
     where I: Iterator<Item=Word>
 {
@@ -133,6 +164,15 @@ impl<I> Iterator for Candidate<I>
                 }
             })
     }
+}
+
+
+#[derive(Debug, Fail)]
+pub enum ConvertError {
+    #[fail(display = "Invalid argument: The argument isn't convertible to SearchMode. argument: {}", argument), ]
+    InvalidSearchModeName {
+        argument: String
+    },
 }
 
 #[cfg(test)]
