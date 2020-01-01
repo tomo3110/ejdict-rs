@@ -1,6 +1,6 @@
 [package]
 name = "ejdict_rs"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
 edition = "2018"
 build = "build.rs"
