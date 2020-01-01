@@ -11,9 +11,7 @@ impl Dictionary {
     }
 
     pub fn search(&self, pat: &str) -> Option<&Word> {
-        self.words
-            .iter()
-            .find_map(|word| word.matched(pat))
+        self.words.iter().find_map(|word| word.matched(pat))
     }
 }
 
@@ -26,7 +24,7 @@ impl IntoIterator for Dictionary {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, PartialEq, PartialOrd, Eq, Ord, Deserialize, Serialize)]
 pub struct Word {
     words: Vec<String>,
     mean: String,
@@ -53,15 +51,13 @@ impl Word {
     }
 
     pub fn matched(&self, pat: &str) -> Option<&Word> {
-        self.words()
-            .iter()
-            .find_map(|en| {
-                if en.starts_with(pat) {
-                    Some(self)
-                } else {
-                    None
-                }
-            })
+        self.words().iter().find_map(|en| {
+            if en.starts_with(pat) {
+                Some(self)
+            } else {
+                None
+            }
+        })
     }
 }
 
