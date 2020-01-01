@@ -3,7 +3,7 @@ use std::env;
 
 mod errors;
 
-pub use ejdict_rs_core::{Dictionary, Word};
+pub use ejdict_rs_core::{Dictionary, Word, SearchMode, Candidate};
 pub use errors::{Error, ErrorKind, Result};
 
 lazy_static! {
@@ -20,17 +20,22 @@ fn load_dictionary() -> Result<Dictionary> {
     Ok(dict)
 }
 
-pub fn search(word: &str) -> Option<&Word> {
+pub fn search(word: &str, mode: SearchMode) -> Option<&Word> {
     let ref dict: Dictionary = *EJDICT_DISCIONARY;
-    dict.search(word)
+    dict.search(word, mode)
+}
+
+pub fn candidates(word: &str) -> Result<Candidate<std::vec::IntoIter<Word>>> {
+    let dict = load_dictionary()?;
+    Ok(dict.candidates(word))
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::search;
+    use crate::{search, SearchMode};
 
     #[test]
     fn text_search() {
-        assert_ne!(search("Will"), None)
+        assert_eq!(search("will", SearchMode::Exact), None)
     }
 }
