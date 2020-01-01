@@ -1,19 +1,6 @@
-[package]
-name = "ejdict_rs"
-version = "0.1.0"
-authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
-edition = "2018"
-build = "build.rs"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-ejdict_rs_core = { path = "ejdict_rs_core" }
-failure = "0.1"
-lazy_static = "1"
-serde_json = "1"
-
-[build-dependencies]
-ejdict_rs_core = { path = "ejdict_rs_core" }
-reqwest = "0.9"
-serde_json = "1"
+[workspace]
+members = [
+    "ejdict_rs",
+    "ejdict_rs_core",
+    "ejdict_rs_cli",
+]
