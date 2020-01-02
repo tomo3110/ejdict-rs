@@ -41,6 +41,9 @@ pub enum ErrorKind {
 
     #[fail(display = "serde error")]
     Serde(SerdeError),
+
+    #[fail(display = "not found from English-Japanese Dictionary: {}", en)]
+    NotFound { en: String },
 }
 
 impl From<VarError> for ErrorKind {
