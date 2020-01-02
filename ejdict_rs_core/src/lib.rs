@@ -1,4 +1,4 @@
-use failure::{Backtrace, Context, Fail};
+use failure::Fail;
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
@@ -12,7 +12,7 @@ impl Dictionary {
         Dictionary { words }
     }
 
-    pub fn search(&self, pat: &str, mode: SearchMode) -> Option<&Word> {
+    pub fn look(&self, pat: &str, mode: SearchMode) -> Option<&Word> {
         self.words.iter().find_map(|word| word.matched(pat, &mode))
     }
 
@@ -69,13 +69,9 @@ impl Word {
     where
         F: Fn(&str) -> bool,
     {
-        self.words().iter().find_map(|en| {
-            if callback(en) {
-                Some(self)
-            } else {
-                None
-            }
-        })
+        self.words()
+            .iter()
+            .find_map(|en| if callback(en) { Some(self) } else { None })
     }
 
     fn exact_matched(&self, pat: &str) -> Option<&Word> {
@@ -120,7 +116,7 @@ impl FromStr for SearchMode {
 
     fn from_str(s: &str) -> Result<SearchMode, ConvertError> {
         use SearchMode::*;
-        if Exact.to_string().eq( s) {
+        if Exact.to_string().eq(s) {
             return Ok(Exact);
         }
         if Fuzzy.to_string().eq(s) {
@@ -129,19 +125,23 @@ impl FromStr for SearchMode {
         if Lower.to_string().eq(s) {
             return Ok(Lower);
         }
-        Err(ConvertError::InvalidSearchModeName { argument: s.to_string() })
+        Err(ConvertError::InvalidSearchModeName {
+            argument: s.to_string(),
+        })
     }
 }
 
 pub struct Candidate<I>
-    where I: Iterator<Item=Word>
+where
+    I: Iterator<Item = Word>,
 {
     inner_iter: I,
     pat: String,
 }
 
 impl<I> Candidate<I>
-    where I: Iterator<Item=Word>
+where
+    I: Iterator<Item = Word>,
 {
     fn new(inner_iter: I, pat: String) -> Candidate<I> {
         Candidate { inner_iter, pat }
@@ -149,30 +149,30 @@ impl<I> Candidate<I>
 }
 
 impl<I> Iterator for Candidate<I>
-    where I: Iterator<Item=Word>
+where
+    I: Iterator<Item = Word>,
 {
     type Item = I::Item;
 
     fn next(&mut self) -> Option<Word> {
-        let Candidate { inner_iter, pat } = self;
-        inner_iter
-            .find_map(|word| {
-                if word.matched(pat, &SearchMode::Fuzzy).is_some() {
-                    Some(word)
-                } else {
-                    None
-                }
-            })
+        let pat = self.pat.as_str();
+        self.inner_iter.find_map(|word| {
+            if word.matched(pat, &SearchMode::Fuzzy).is_some() {
+                Some(word)
+            } else {
+                None
+            }
+        })
     }
 }
 
-
 #[derive(Debug, Fail)]
 pub enum ConvertError {
-    #[fail(display = "Invalid argument: The argument isn't convertible to SearchMode. argument: {}", argument), ]
-    InvalidSearchModeName {
-        argument: String
-    },
+    #[fail(
+        display = "Invalid argument: The argument isn't convertible to SearchMode. argument: {}",
+        argument
+    )]
+    InvalidSearchModeName { argument: String },
 }
 
 #[cfg(test)]
