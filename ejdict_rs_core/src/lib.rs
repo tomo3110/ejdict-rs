@@ -132,6 +132,7 @@ impl FromStr for SearchMode {
     }
 }
 
+#[derive(Debug)]
 pub struct Candidate<I>
 where
     I: Iterator<Item = Word>,
