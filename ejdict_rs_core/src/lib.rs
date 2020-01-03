@@ -146,7 +146,11 @@ where
     I: Iterator<Item = Word>,
 {
     fn new(inner_iter: I, pat: String, mode: SearchMode) -> Candidate<I> {
-        Candidate { inner_iter, pat, mode }
+        Candidate {
+            inner_iter,
+            pat,
+            mode,
+        }
     }
 }
 
