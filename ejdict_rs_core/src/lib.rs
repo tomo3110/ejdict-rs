@@ -16,9 +16,9 @@ impl Dictionary {
         self.words.iter().find_map(|word| word.matched(pat, &mode))
     }
 
-    pub fn candidates(self, pat: &str) -> Candidate<std::vec::IntoIter<Word>> {
+    pub fn candidates(self, pat: &str, mode: SearchMode) -> Candidate<std::vec::IntoIter<Word>> {
         let inner_iter = self.into_iter();
-        Candidate::new(inner_iter, pat.to_owned())
+        Candidate::new(inner_iter, pat.to_owned(), mode)
     }
 }
 
@@ -94,6 +94,7 @@ impl From<(Vec<String>, String)> for Word {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SearchMode {
     Exact,
     Fuzzy,
@@ -137,14 +138,15 @@ where
 {
     inner_iter: I,
     pat: String,
+    mode: SearchMode,
 }
 
 impl<I> Candidate<I>
 where
     I: Iterator<Item = Word>,
 {
-    fn new(inner_iter: I, pat: String) -> Candidate<I> {
-        Candidate { inner_iter, pat }
+    fn new(inner_iter: I, pat: String, mode: SearchMode) -> Candidate<I> {
+        Candidate { inner_iter, pat, mode }
     }
 }
 
@@ -156,8 +158,9 @@ where
 
     fn next(&mut self) -> Option<Word> {
         let pat = self.pat.as_str();
+        let mode = &self.mode;
         self.inner_iter.find_map(|word| {
-            if word.matched(pat, &SearchMode::Fuzzy).is_some() {
+            if word.matched(pat, mode).is_some() {
                 Some(word)
             } else {
                 None

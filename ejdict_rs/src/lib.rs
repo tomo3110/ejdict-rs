@@ -32,9 +32,9 @@ pub fn look(word: &str, mode: SearchMode) -> Result<&Word> {
     })
 }
 
-pub fn candidates(word: &str) -> Result<Candidate<Word>> {
+pub fn candidates(word: &str, mode: SearchMode) -> Result<Candidate<Word>> {
     let dict = load_dictionary()?;
-    Ok(dict.candidates(word))
+    Ok(dict.candidates(word, mode))
 }
 
 #[cfg(test)]
