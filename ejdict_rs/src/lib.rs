@@ -42,14 +42,3 @@ pub fn candidates(word: &str, mode: SearchMode) -> Result<Candidate<Word>> {
     let dict = load_dictionary()?;
     Ok(dict.candidates(word, mode))
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::{look, SearchMode, Word};
-
-    #[test]
-    fn text_search() {
-        let word = look("will", SearchMode::Exact).unwrap();
-        assert_eq!(word, &Word::parse_line("will\thoge"));
-    }
-}
