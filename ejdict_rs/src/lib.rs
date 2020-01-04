@@ -12,12 +12,18 @@ lazy_static! {
     static ref EJDICT_DISCIONARY: Dictionary = load_dictionary().unwrap();
 }
 
+#[cfg(target_os = "windows")]
+fn get_ejdict_json<'a>() -> &'a str {
+    include_str!(concat!(env!("OUT_DIR"), "\\ejdict.json"))
+}
+
+#[cfg(not(target_os = "windows"))]
+fn get_ejdict_json<'a>() -> &'a str {
+    include_str!(concat!(env!("OUT_DIR"), "\\ejdict.json"))
+}
+
 fn load_dictionary() -> Result<Dictionary> {
-    let src = if cfg!(windows) {
-        include_str!(concat!(env!("OUT_DIR"), "\\ejdict.json"))
-    } else {
-        include_str!(concat!(env!("OUT_DIR"), "/ejdict.json"))
-    };
+    let src = get_ejdict_json();
     let dict = serde_json::from_str::<Dictionary>(src)?;
     Ok(dict)
 }
