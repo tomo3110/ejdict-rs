@@ -1,4 +1,4 @@
-name: ejdict_rs
+name: Build
 
 on: [push]
 

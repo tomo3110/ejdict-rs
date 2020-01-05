@@ -1,6 +1,9 @@
 ejdict-rs
 ====
 
+[![Build and test](https://github.com/tomo3110/ejdict-rs/workflows/ejdict_rs/badge.svg)](https://github.com/tomo3110/ejdict-rs)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tomo3110/ejdict-rs/blob/master/LICENSE)
+
 This library is an English-Japanese dictionary that can be used via implemented API by Rust language.
 
 DEMO
