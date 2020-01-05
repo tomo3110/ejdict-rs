@@ -3,16 +3,19 @@ use serde_json::Error as SerdeError;
 use std::env::VarError;
 use std::fmt;
 
+/// Error in this library
 #[derive(Debug)]
 pub struct Error {
     inner: Context<ErrorKind>,
 }
 
 impl Error {
+    /// Construct for Error struct
     pub fn new(inner: Context<ErrorKind>) -> Self {
         Error { inner }
     }
 
+    /// Get the cause of the error kind.
     pub fn kind(&self) -> &ErrorKind {
         self.inner.get_context()
     }
@@ -34,6 +37,7 @@ impl fmt::Display for Error {
     }
 }
 
+/// Kind of errors that occur in this library.
 #[derive(Debug, Fail)]
 pub enum ErrorKind {
     #[fail(display = "std::env::var error")]
@@ -86,4 +90,5 @@ impl From<SerdeError> for Error {
     }
 }
 
+/// Short hand for Result type
 pub type Result<T> = std::result::Result<T, Error>;

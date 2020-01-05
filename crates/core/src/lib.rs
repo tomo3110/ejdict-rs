@@ -1,24 +1,56 @@
+//! # ejdict-rs-core
+//!
+//! This library is detailed implementation of ejdict-rs.
+//!
+//! ## Note
+//!
+//! We do not recommend using this library directly.
+//! Please use from the following URL.
+//!
+//! https://github.com/tomo3110/ejdict-rs
+//!
+//! ## Dependencies
+//!
+//! - failure
+//!   - Apache 2.0, MIT
+//!   - Error management
+//! - serde
+//!   - Apache 2.0, MIT
+//!   - Serialization framework
+//!
+//! Thanks for the great crates.
+//!
+//! ## License
+//!
+//! This software is under [MIT License](https://github.com/tomo3110/ejdict-rs/blob/master/LICENCE).
+//!
+
 use failure::Fail;
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
+/// Dictionary struct
+/// This struct is holds all the words contained in the English-Japanese dictionary.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Dictionary {
     words: Vec<Word>,
 }
 
 impl Dictionary {
+    /// Constructor for Dictionary struct.
     pub fn new(words: Vec<Word>) -> Self {
         Dictionary { words }
     }
 
+    /// Look up words from English-Japanese dictionary.
     pub fn look(&self, pat: &str, mode: SearchMode) -> Option<&Word> {
         self.words.iter().find_map(|word| word.matched(pat, &mode))
     }
 
-    pub fn candidates(self, pat: &str, mode: SearchMode) -> Candidate<std::vec::IntoIter<Word>> {
+    /// Get matching candidate words.
+    pub fn candidates(self, pat: &str, mode: SearchMode) -> Candidates<std::vec::IntoIter<Word>> {
         let inner_iter = self.into_iter();
-        Candidate::new(inner_iter, pat.to_owned(), mode)
+        Candidates::new(inner_iter, pat.to_owned(), mode)
     }
 }
 
@@ -31,6 +63,8 @@ impl IntoIterator for Dictionary {
     }
 }
 
+/// This Struct is that holds word translation information.
+/// `words` field is that holds similar English words.
 #[derive(Debug, PartialEq, PartialOrd, Eq, Ord, Deserialize, Serialize)]
 pub struct Word {
     words: Vec<String>,
@@ -38,9 +72,12 @@ pub struct Word {
 }
 
 impl Word {
+    /// Construct for `Word` struct.
     pub fn new(words: Vec<String>, mean: String) -> Self {
         Word { words, mean }
     }
+
+    /// Construct `Word` structure by parsing line string.
     pub fn parse_line(line: &str) -> Self {
         let secs = line.split("\t").collect::<Vec<&str>>();
         let words = String::from(secs[0]);
@@ -52,14 +89,17 @@ impl Word {
         Self::new(words, mean)
     }
 
+    /// Get words reference.
     pub fn words(&self) -> &Vec<String> {
         self.words.as_ref()
     }
 
+    /// Get mean reference.
     pub fn mean(&self) -> &str {
         self.mean.as_str()
     }
 
+    /// Checks if this word matches the argument string.
     pub fn matched(&self, pat: &str, mode: &SearchMode) -> Option<&Word> {
         match mode {
             SearchMode::Exact => self.exact_matched(pat),
@@ -97,6 +137,7 @@ impl From<(Vec<String>, String)> for Word {
     }
 }
 
+/// SearchMode specifies how to check if a word is a match.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SearchMode {
     Exact,
@@ -135,8 +176,11 @@ impl FromStr for SearchMode {
     }
 }
 
+/// Candidate words.
+/// This struct is implemented Iterator.
+/// Use the iterator API to check the result.
 #[derive(Debug)]
-pub struct Candidate<I>
+pub struct Candidates<I>
 where
     I: Iterator<Item = Word>,
 {
@@ -145,12 +189,13 @@ where
     mode: SearchMode,
 }
 
-impl<I> Candidate<I>
+impl<I> Candidates<I>
 where
     I: Iterator<Item = Word>,
 {
-    fn new(inner_iter: I, pat: String, mode: SearchMode) -> Candidate<I> {
-        Candidate {
+    /// Constructor for Candidates<I> struct
+    fn new(inner_iter: I, pat: String, mode: SearchMode) -> Candidates<I> {
+        Candidates {
             inner_iter,
             pat,
             mode,
@@ -158,7 +203,7 @@ where
     }
 }
 
-impl<I> Iterator for Candidate<I>
+impl<I> Iterator for Candidates<I>
 where
     I: Iterator<Item = Word>,
 {
@@ -177,6 +222,7 @@ where
     }
 }
 
+/// An error returned when conversion from string to `SearchMode` fails.
 #[derive(Debug, Fail, PartialEq, Eq)]
 pub enum ConvertError {
     #[fail(

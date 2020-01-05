@@ -2,6 +2,8 @@ ejdict-rs-cli
 ===
 
 [![Build and test](https://github.com/tomo3110/ejdict-rs/workflows/ejdict_rs/badge.svg)](https://github.com/tomo3110/ejdict-rs)
+[![ejdict_rs_cli at crates.io](https://img.shields.io/crates/v/ejdict_rs_cli.svg)](https://crates.io/crates/ejdict_rs_cli)
+[![ejdict_rs_cli at docs.rs](https://docs.rs/ejdict_rs_cli/badge.svg)](https://docs.rs/ejdict_rs_cli)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tomo3110/ejdict-rs/blob/master/LICENSE)
 
 ejdict-cli is English-Japanese Dictionary command.
