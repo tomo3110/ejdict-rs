@@ -58,8 +58,19 @@ Write the following contents in Cargo.toml.
 
 ```toml
 [dependencies]
+ejdict_rs = "0.0.1"
+```
+
+If you use the development version or a specific version, write as follows.
+
+```toml
+[dependencies]
 ejdict_rs = { git = "https://github.com/tomo3110/ejdict-rs" }
 ```
+
+For details, check the following URL.
+
+https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories
 
 ## Dependencies
 
