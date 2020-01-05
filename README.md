@@ -54,8 +54,30 @@ Write the following contents in Cargo.toml.
 ejdict_rs = { git = "https://github.com/tomo3110/ejdict-rs" }
 ```
 
-**note**
+## Dependencies
 
+- crates
+  - failure
+    - Apache 2.0, MIT
+    - Error management
+  - lazy_static
+    - Apache 2.0, MIT
+    - Copyright (c) 2010 The Rust Project Developers
+    - A small macro for defining lazy evaluated static variables in Rust.
+  - serde_json
+    - Apache 2.0, MIT
+    - Strongly typed JSON library.
+  - reqwest
+    - Apache 2.0, MIT
+    - Copyright (c) 2016 Sean McArthur
+    - Rust HTTP Client
+- dictionary data
+  - ejdict-hand
+    - MIT
+    - Copyright (c) 2016 kujirahand
+    - English-Japanese Dictionary data (Public Domain)
+
+Thanks for the great crates and dictionary data.
 
 ## License
 
