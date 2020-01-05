@@ -11,6 +11,6 @@ path = "src/main.rs"
 
 [dependencies]
 clap = "2.33.0"
-ejdict_rs = { path = "../ejdict_rs" }
+ejdict_rs = { path = "../../" }
 prettytable-rs = "0.8"
 serde_json = "1"
