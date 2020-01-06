@@ -2,7 +2,10 @@
 name = "ejdict_rs_core"
 version = "0.0.1"
 authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
-
+description = "This library is detailed implementation of ejdict-rs."
+repository = "https://github.com/tomo3110/ejdict_rs"
+readme = "README.md"
+license = "MIT"
 edition = "2018"
 
 [dependencies]

@@ -2,8 +2,11 @@
 name = "ejdict_rs_cli"
 version = "0.0.1"
 authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
-edition = "2018"
 description = "ejdict-cli is English-Japanese Dictionary command."
+repository = "https://github.com/tomo3110/ejdict_rs"
+readme = "README.md"
+license = "MIT"
+edition = "2018"
 
 [[bin]]
 name = "ejdict-cli"
