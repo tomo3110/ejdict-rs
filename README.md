@@ -9,7 +9,7 @@ ejdict-rs
 This library is an English-Japanese dictionary that can be used via implemented API by Rust language.
 
 DEMO
-![DEMO](./doc/assets/ejdict_rs_cli_DEMO.gif)
+![DEMO](https://github.com/tomo3110/ejdict-rs/blob/master/doc/assets/ejdict_rs_cli_DEMO.gif)
 
 ## Overview
 

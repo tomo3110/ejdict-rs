@@ -9,7 +9,7 @@ ejdict-rs-cli
 ejdict-cli is English-Japanese Dictionary command.
 
 Demo
-![DEMO](../../doc/assets/ejdict_rs_cli_DEMO.gif)
+![DEMO](https://github.com/tomo3110/ejdict-rs/blob/master/doc/assets/ejdict_rs_cli_DEMO.gif)
 
 ## Overview
 

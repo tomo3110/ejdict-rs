@@ -1,9 +1,9 @@
 [package]
 name = "ejdict_rs"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
 description = "This library is an English-Japanese dictionary that can be used via implemented API by Rust language."
-repository = "https://github.com/tomo3110/ejdict_rs"
+repository = "https://github.com/tomo3110/ejdict-rs"
 readme = "README.md"
 license = "MIT"
 keywords = [
@@ -19,13 +19,13 @@ name = "ejdict_rs"
 path = "src/lib.rs"
 
 [dependencies]
-ejdict_rs_core = { path = "crates/core", version = "0.0.1" }
+ejdict_rs_core = { path = "crates/core", version = "0.0.2" }
 failure = "0.1"
 lazy_static = "1"
 serde_json = "1"
 
 [build-dependencies]
-ejdict_rs_core = { path = "crates/core", version = "0.0.1" }
+ejdict_rs_core = { path = "crates/core", version = "0.0.2" }
 reqwest = "0.9"
 serde_json = "1"
 
