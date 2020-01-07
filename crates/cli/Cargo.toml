@@ -1,6 +1,6 @@
 [package]
 name = "ejdict_rs_cli"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["tomo3110 <uotias64_mole@yahoo.co.jp>"]
 description = "ejdict-cli is English-Japanese Dictionary command."
 repository = "https://github.com/tomo3110/ejdict-rs"
@@ -14,6 +14,6 @@ path = "src/main.rs"
 
 [dependencies]
 clap = "2.33.0"
-ejdict_rs = { version = "0.0.2", path = "../../" }
+ejdict_rs = { version = "0.0.3", path = "../../" }
 prettytable-rs = "0.8"
 serde_json = "1"
