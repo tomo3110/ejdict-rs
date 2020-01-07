@@ -58,7 +58,7 @@ Write the following contents in Cargo.toml.
 
 ```toml
 [dependencies]
-ejdict_rs = "0.0.1"
+ejdict_rs = "0.0.3"
 ```
 
 If you use the development version or a specific version, write as follows.
