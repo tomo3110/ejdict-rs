@@ -49,7 +49,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! ejdict_rs = { git = "https://github.com/tomo3110/ejdict-rs" }
+//! ejdict_rs = { "0.0.4" }
 //! ```
 //!
 //! If you use the development version or a specific version, write as follows.
@@ -76,10 +76,6 @@
 //!   - serde_json
 //!     - Apache 2.0, MIT
 //!     - Strongly typed JSON library.
-//!   - reqwest
-//!     - Apache 2.0, MIT
-//!     - Copyright (c) 2016 Sean McArthur
-//!     - Rust HTTP Client
 //! - dictionary data
 //!   - ejdict-hand
 //!     - MIT
@@ -106,7 +102,7 @@ pub use ejdict_rs_core::{Dictionary, SearchMode, Word};
 pub use errors::{Error, ErrorKind, Result};
 
 /// List of candidates that can be obtained as search results
-pub type Candidate<T> = ejdict_rs_core::Candidates<std::vec::IntoIter<T>>;
+pub type Candidates<T> = ejdict_rs_core::Candidates<std::vec::IntoIter<T>>;
 
 lazy_static! {
     static ref EJDICT_DISCIONARY: Dictionary = load_dictionary().unwrap();
@@ -171,7 +167,7 @@ pub fn look(word: &str, mode: SearchMode) -> Result<&Word> {
 /// # }
 /// ```
 ///
-pub fn candidates(word: &str, mode: SearchMode) -> Result<Candidate<Word>> {
+pub fn candidates(word: &str, mode: SearchMode) -> Result<Candidates<Word>> {
     let dict = load_dictionary()?;
     Ok(dict.candidates(word, mode))
 }
