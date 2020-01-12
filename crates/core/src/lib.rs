@@ -65,7 +65,7 @@ impl IntoIterator for Dictionary {
 
 /// This Struct is that holds word translation information.
 /// `words` field is that holds similar English words.
-#[derive(Debug, PartialEq, PartialOrd, Eq, Ord, Deserialize, Serialize)]
+#[derive(Clone, Debug, PartialEq, PartialOrd, Eq, Ord, Deserialize, Serialize)]
 pub struct Word {
     words: Vec<String>,
     mean: String,
@@ -179,10 +179,10 @@ impl FromStr for SearchMode {
 /// Candidate words.
 /// This struct is implemented Iterator.
 /// Use the iterator API to check the result.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Candidates<I>
 where
-    I: Iterator<Item = Word>,
+    I: Iterator<Item = Word> + Clone,
 {
     inner_iter: I,
     pat: String,
@@ -191,7 +191,7 @@ where
 
 impl<I> Candidates<I>
 where
-    I: Iterator<Item = Word>,
+    I: Iterator<Item = Word> + Clone,
 {
     /// Constructor for Candidates<I> struct
     fn new(inner_iter: I, pat: String, mode: SearchMode) -> Candidates<I> {
@@ -205,7 +205,7 @@ where
 
 impl<I> Iterator for Candidates<I>
 where
-    I: Iterator<Item = Word>,
+    I: Iterator<Item = Word> + Clone,
 {
     type Item = I::Item;
 
@@ -255,6 +255,7 @@ mod tests {
         assert_eq!(apple_candidates.next(), Some(word1()));
         assert_eq!(apple_candidates.next(), Some(word2()));
         assert_eq!(apple_candidates.next(), Some(word3()));
+        assert_eq!(apple_candidates.next(), None);
     }
 
     #[test]
